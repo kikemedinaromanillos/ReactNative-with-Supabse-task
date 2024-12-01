@@ -1,74 +1,70 @@
-import { Image, StyleSheet, Platform } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, Text, StyleSheet, View } from 'react-native';
+import TaskForm from '@/components/crud/TaskForm'; // Asegúrate de tener la ruta correcta
+import TaskList from '@/components/crud/TaskList'; // Asegúrate de tener la ruta correcta
 
-export default function HomeScreen() {
+export default function App() {
+  const [tasks, setTasks] = useState([]); // Para almacenar las tareas guardadas
+  const [taskToEdit, setTaskToEdit] = useState(null); // Para almacenar la tarea a editar
+
+  // Función que se pasa como onSave al componente TaskForm
+  const handleSaveTask = () => {
+    // Lógica para actualizar las tareas o hacer lo que necesites
+    console.log('Tarea guardada, actualizar lista de tareas');
+    // Aquí podrías agregar lógica para actualizar el estado de tareas
+    // o hacer una llamada a la API para obtener las tareas actualizadas.
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.header}>Tareas</Text>
+
+      {/* Renderiza TaskForm y pasa la función handleSaveTask */}
+      <View style={styles.formContainer}>
+        <TaskForm onSave={handleSaveTask} />
+      </View>
+
+      <View style={styles.listContainer}>
+        <TaskList />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flexGrow: 1,
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'flex-start',
+    backgroundColor: '#f4f7fc',
+    padding: 20,
+    paddingBottom: 30, // Evitar que el contenido quede pegado al final de la pantalla
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  header: {
+    fontSize: 32,
+    color: '#333',
+    marginBottom: 20,
+    fontWeight: '600',
+    textAlign: 'center', // Centrado del título
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  formContainer: {
+    backgroundColor: '#ffffff',
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8, // Para dispositivos Android
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 30,
+    width: '100%',
+    maxWidth: 600,
+    marginHorizontal: 'auto', // Centrado horizontal
+  },
+  listContainer: {
+    width: '100%',
+    maxWidth: 600,
+    marginHorizontal: 'auto', // Centrado horizontal
   },
 });

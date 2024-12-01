@@ -2,10 +2,10 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "baseUrl": ".",  // Esto establece la raíz del proyecto como base
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["*"],  // Alias para todas las rutas en la raíz del proyecto
+      "@app/*": ["app/*"]  // Alias específico para la carpeta app
     }
   },
   "include": [
